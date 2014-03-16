@@ -1,0 +1,17 @@
+{
+  "name": "pusheen-explorer",
+  "version": "0.0.0",
+  "description": "Explore Pusheen pictures!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "nodecr": "0.0.5",
+    "request": "~2.34.0",
+    "q": "~1.0.1"
+  }
+}
