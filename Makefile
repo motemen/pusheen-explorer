@@ -1,5 +1,9 @@
-app/data/entries.json: data/posts-raw.json
-	cat data/posts-raw.json | jq '[ .[] | { post_url: .post_url, photo: .photos[] | .original_size } ]' > data/entries.json
+app/data/entries.json: cache/posts-raw.json
+	cat cache/posts-raw.json | jq '[ .[] | { post_url: .post_url, photo: .photos[] | .original_size } ]' > app/data/entries.json
 
-data/posts-raw.json:
-	node scripts/scrape-pictures.js > data/posts-raw.json
+cache/posts-raw.json:
+	mkdir -p cache
+	node scripts/scrape-pictures.js > cache/posts-raw.json
+
+clean:
+	rm -f app/data/entries.json cache/posts-raw.json
