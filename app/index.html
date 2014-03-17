@@ -8,15 +8,22 @@
 body {
   color: #68412E;
   background-color: #FCF0E4;
+  padding: 2%;
 }
 
-/*
-img {
-  max-width: 200px;
+input {
+  font-size: 1.2em;
+  width: 25em;
+  padding: 0.2em;
 }
-*/
+
+ul {
+  margin: 0;
+  padding: 0;
+}
 
 li {
+  margin: 10px;
   border: 5px solid #FFF;
   list-style: none;
 }
@@ -25,11 +32,11 @@ li {
 <body ng-controller="MainCtrl">
   <h1>Pusheen Explorer</h1>
   <section id="heading">
-    <input type="text" placeholder="Search…">
+    <input type="text" placeholder="Search…" ng-model="query">
   </section>
   <section id="photos">
-    <ul ng-repeat="entry in entries">
-      <li><a ng-href="{{entry.post_url}}"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
+    <ul ng-repeat="entry in entries | filter:query">
+      <li><a ng-href="{{entry.postUrl}}"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
     </ul>
   </section>
 </body>

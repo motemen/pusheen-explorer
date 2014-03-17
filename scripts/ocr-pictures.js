@@ -4,38 +4,77 @@ var fs     = require('fs'),
     _      = require('lodash'),
     spawn  = require('child_process').spawn;
 
+nodecr.log = function () {};
+
 Q.nfcall(fs.readFile, 'cache/posts-raw.json').then(function (json) {
-    const SUITABLE_WIDTH = 300;
+    const MINIMUM_WIDTH = 300;
 
     var posts = JSON.parse(json);
-    var photoURLs = _(posts).map(function (post) {
-        return post.photos || [];
-    }).flatten().map(function (photo) {
-        var photo = _(photo.alt_sizes).sortBy('width').find(function (p) {
-            return p.width >= SUITABLE_WIDTH;
+    var postAndPhotos = _(posts).map(function (post) {
+        return _.map(post.photos || [], function (photo) {
+            return [ post.post_url, photo.original_size, photo.alt_sizes ]
         });
+    }).flatten(true).map(function (tuple) {
+        var suitablePhoto = _(tuple[2]).sortBy('width').find(function (p) {
+            return p.width >= MINIMUM_WIDTH;
+        });
+        return [ tuple[0], tuple[1], suitablePhoto && suitablePhoto.url ];
+    }).filter(function (tuple) {
+        return tuple[2];
+    }).value();
 
-        return photo && photo.url;
-    }).compact().value();
+    function downloadImage (url) {
+        var filePath = url.replace(/^http:\/\//, 'cache/');
 
-    new function downloadNext () {
-        var url = photoURLs.shift();
-        if (!url) return;
+        if (fs.existsSync(filePath)) {
+            console.log('  exists ' + filePath);
+            return Q(filePath);
+        }
 
-        console.log(' ---> ' + url)
+        console.log('download ' + url + ' -> ' + filePath);
 
-        var wget = spawn('wget', [ '-nv', '--mirror', '-P', 'cache', url ], { stdio: 'inherit' });
-        wget.on('close', function () {
-            var path = url.replace(/^http:\/\//, 'cache/');
-            nodecr.process(path, function (err, text) {
-                if (err) {
-                    console.log('      error: ' + err)
-                } else if (text) {
-                    text = text.replace(/^\s+|\s+$/g, '');
-                    console.log('      text: ' + JSON.stringify(text));
-                }
-                downloadNext();
-            }, 'eng');
-        })
+        var q = Q.defer();
+        spawn('wget', [ '-nv', '--mirror', '-P', 'cache', url ], { stdio: 'inherit' })
+            .on('close', function () { q.resolve(filePath) });
+        return q;
+    }
+
+    function extractText (filePath) {
+        console.log('extractText', filePath);
+
+        return Q.ninvoke(nodecr, 'process', filePath).then(function (text) {
+            return text.replace(/^\s+|\s+$/g, '');
+        }).then(function (text) {
+            console.log('   text ' + JSON.stringify(text));
+            return text;
+        }, function (e) {
+            console.log(e);
+        });
+    }
+
+    var result = [];
+
+    new function loop () {
+        var postAndPhoto = postAndPhotos.shift();
+        if (!postAndPhoto) {
+            console.log(JSON.stringify(result, null, 4));
+            return;
+        }
+
+        var postUrl      = postAndPhoto[0],
+            originalSize = postAndPhoto[1],
+            photoUrl     = postAndPhoto[2];
+        Q(photoUrl)
+            .then(downloadImage)
+            .then(extractText)
+            .then(function (text) {
+                console.log(text);
+                result.push({
+                    text: text,
+                    postUrl: postUrl,
+                    photo: originalSize,
+                });
+            })
+            .then(loop);
     }
 })

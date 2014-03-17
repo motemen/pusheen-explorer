@@ -9,5 +9,11 @@ app.controller('MainCtrl', [ '$scope', '$http', '$timeout',
                 new Masonry(document.querySelector('#photos'));
             });
         });
+
+        $scope.$watch('query', function () {
+            $timeout(function () {
+                new Masonry(document.querySelector('#photos'));
+            });
+        });
     }
 ]);

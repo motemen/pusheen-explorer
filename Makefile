@@ -1,5 +1,5 @@
 app/data/entries.json: cache/posts-raw.json
-	cat cache/posts-raw.json | jq '[ .[] | { post_url: .post_url, photo: .photos[] | .original_size } ]' > app/data/entries.json
+	node scripts/ocr-pictures.js > app/data/entries.json
 
 cache/posts-raw.json:
 	mkdir -p cache
