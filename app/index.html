@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="pusheenExplorer">
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.2/angular.min.js"></script>
   <script src="http://masonry.desandro.com/masonry.pkgd.js"></script>
@@ -10,9 +10,11 @@ body {
   background-color: #FCF0E4;
 }
 
+/*
 img {
   max-width: 200px;
 }
+*/
 
 li {
   border: 5px solid #FFF;
@@ -20,14 +22,14 @@ li {
 }
   </style>
 </head>
-<body ng-controller="PusheenCtrl">
+<body ng-controller="MainCtrl">
   <h1>Pusheen Explorer</h1>
   <section id="heading">
     <input type="text" placeholder="Search…">
   </section>
   <section id="photos">
     <ul ng-repeat="entry in entries">
-      <li><a ng-href="{{entry.post_url}}"><img ng-src="{{entry.photo.url}}"></a></li>
+      <li><a ng-href="{{entry.post_url}}"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
     </ul>
   </section>
 </body>

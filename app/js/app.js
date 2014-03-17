@@ -1,5 +1,13 @@
-function PusheenCtrl ($scope, $http) {
-    $http.get('data/entries.json').success(function (data) {
-        $scope.entries = data;
-    });
-}
+var app = angular.module('pusheenExplorer', []);
+
+app.controller('MainCtrl', [ '$scope', '$http', '$timeout',
+    function ($scope, $http, $timeout) {
+        $http.get('data/entries.json').success(function (data) {
+            $scope.entries = data;
+            $scope.imageWidth = 200;
+            $timeout(function () {
+                new Masonry(document.querySelector('#photos'));
+            });
+        });
+    }
+]);
