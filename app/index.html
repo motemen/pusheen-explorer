@@ -65,13 +65,13 @@ footer iframe {
   </style>
 </head>
 <body ng-controller="MainCtrl">
-  <h1>Pusheen Explorer <small>search through pusheen.com!</small></h1>
+  <h1>Pusheen Explorer <small>[unofficial] search through pusheen.com!</small></h1>
   <section id="heading">
     <input type="text" placeholder="Search…" ng-model="query">
   </section>
   <section id="photos">
     <ul ng-repeat="entry in entries">
-      <li><a ng-href="{{entry.postUrl}}" target="_blank"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
+      <li title="{{entry.text}}"><a ng-href="{{entry.postUrl}}" target="_blank"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
     </ul>
   </section>
   <footer>
