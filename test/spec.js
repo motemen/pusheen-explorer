@@ -5,9 +5,9 @@ describe('/', function () {
         browser.get('/');
     });
 
-    it('should list 50 entries at first', function () {
+    it('should list 30 entries at first', function () {
         var entries = element.all(by.repeater('entry in entries'));
-        expect(entries.count()).toEqual(50);
+        expect(entries.count()).toEqual(30);
     });
 
     describe('with query input', function () {

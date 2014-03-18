@@ -14,7 +14,7 @@ app.controller('MainCtrl', [ '$scope', '$http', '$timeout', '$filter', '$locatio
             if (query) {
                 $scope.entries = $filter('filter')(allEntries, { text: query })
             } else {
-                $scope.entries = _.sample(allEntries, 50);
+                $scope.entries = _.sample(allEntries, 30);
             }
 
             $timeout(function () {
