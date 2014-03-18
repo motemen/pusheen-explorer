@@ -1,5 +1,7 @@
 test:
-	protractor test/protractor.conf.js
+	npm install
+	$(shell npm bin)/webdriver-manager update
+	$(shell npm bin)/protractor test/protractor.conf.js
 
 app/data/entries.json: cache/posts-raw.json
 	node scripts/ocr-pictures.js > app/data/entries.json
