@@ -1,7 +1,11 @@
+require('dotenv').load();
+
 var Q       = require('q'),
     request = require('request');
 
 var API_KEY = process.env['TUMBLR_OAUTH_CONSUMER_KEY'];
+
+if (!API_KEY) throw 'TUMBLR_OAUTH_CONSUMER_KEY not set'
 
 scrape().then(function (posts) {
     console.log(JSON.stringify(posts));

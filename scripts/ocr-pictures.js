@@ -27,11 +27,11 @@ Q.nfcall(fs.readFile, 'cache/posts-raw.json').then(function (json) {
         var filePath = url.replace(/^http:\/\//, 'cache/');
 
         if (fs.existsSync(filePath)) {
-            console.log('  exists ' + filePath);
+            process.stderr.write('  exists ' + filePath + '\n');
             return Q(filePath);
         }
 
-        console.log('download ' + url + ' -> ' + filePath);
+        process.stderr.write('download ' + url + ' -> ' + filePath + '\n');
 
         var q = Q.defer();
         spawn('wget', [ '-nv', '--mirror', '-P', 'cache', url ], { stdio: 'inherit' })
@@ -40,15 +40,15 @@ Q.nfcall(fs.readFile, 'cache/posts-raw.json').then(function (json) {
     }
 
     function extractText (filePath) {
-        console.log('extractText', filePath);
+        process.stderr.write(' extract ' + filePath + '\n');
 
         return Q.ninvoke(nodecr, 'process', filePath).then(function (text) {
             return text.replace(/^\s+|\s+$/g, '');
         }).then(function (text) {
-            console.log('   text ' + JSON.stringify(text));
+            process.stderr.write('    text ' + JSON.stringify(text) + '\n');
             return text;
         }, function (e) {
-            console.log(e);
+            process.stderr.write(e + '\n');
         });
     }
 
@@ -68,7 +68,6 @@ Q.nfcall(fs.readFile, 'cache/posts-raw.json').then(function (json) {
             .then(downloadImage)
             .then(extractText)
             .then(function (text) {
-                console.log(text);
                 result.push({
                     text: text,
                     postUrl: postUrl,
