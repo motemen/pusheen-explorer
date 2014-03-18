@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html ng-app="pusheenExplorer">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.2/angular.min.js"></script>
-  <script src="http://masonry.desandro.com/masonry.pkgd.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.2/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Sigmar+One' rel='stylesheet' type='text/css'>
   <script src="js/app.js"></script>
   <style>
+* {
+  font-family: "Sigmar One", cursive;
+}
+
 body {
   color: #68412E;
   background-color: #FCF0E4;
-  padding: 2%;
+  margin: 0;
+  padding: 0 2%;
 }
 
 input {
@@ -17,27 +24,54 @@ input {
   padding: 0.2em;
 }
 
-ul {
+h1 small {
+  font-size: 12pt;
+  color: grey;
+}
+
+h1 small:before {
+  content: " - ";
+}
+
+#photos ul {
   margin: 0;
   padding: 0;
 }
 
-li {
+#photos li {
   margin: 10px;
   border: 5px solid #FFF;
   list-style: none;
 }
+
+#heading {
+  margin-bottom: 1em;
+}
+
+footer {
+  padding-top: 1em;
+  margin-top: 1em;
+  border-top: 1px solid #68412E;
+}
+
+.hearts {
+  color: #C33;
+}
   </style>
 </head>
 <body ng-controller="MainCtrl">
-  <h1>Pusheen Explorer</h1>
+  <h1>Pusheen Explorer <small>search through pusheen.com!</small></h1>
   <section id="heading">
     <input type="text" placeholder="Search…" ng-model="query">
   </section>
   <section id="photos">
-    <ul ng-repeat="entry in entries | filter:query">
-      <li><a ng-href="{{entry.postUrl}}"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
+    <ul ng-repeat="entry in entries">
+      <li><a ng-href="{{entry.postUrl}}" target="_blank"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
     </ul>
   </section>
+  <footer>
+    Made <span class="hearts">&hearts;</span> with Pusheen.
+    All Pusheens are from <a href="http://pusheen.com/">pusheen.com</a>.
+  </footer>
 </body>
 </html>
