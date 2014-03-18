@@ -18,7 +18,7 @@ app.controller('MainCtrl', [ '$scope', '$http', '$timeout', '$filter', '$locatio
             }
 
             $timeout(function () {
-                new Masonry(document.querySelector('#photos'));
+                new Masonry(document.querySelector('#photos .photos-container'));
             });
         }
 
