@@ -49,6 +49,10 @@ h1 small:before {
   margin-bottom: 1em;
 }
 
+#social div {
+  display: inline;
+}
+
 footer {
   padding-top: 1em;
   margin-top: 1em;
@@ -65,7 +69,18 @@ footer iframe {
   </style>
 </head>
 <body ng-controller="MainCtrl">
-  <h1>Pusheen Explorer <small>[unofficial] search through pusheen.com!</small></h1>
+  <header>
+    <h1>Pusheen Explorer <small>[unofficial] search through pusheen.com!</small></h1>
+    <small id="social">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>
+
+      <div class="g-plusone" data-width="300" data-size="medium"></div>
+
+      <div class="fb-like" data-href="http://motemen.github.io/pusheen-explorer/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+
+      <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+    </small>
+  </header>
   <section id="heading">
     <input type="text" placeholder="Search…" ng-model="query">
   </section>
@@ -82,5 +97,22 @@ footer iframe {
     All Pusheens are from <a href="http://pusheen.com/">pusheen.com</a>.
     </p>
   </footer>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=571306102982480";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
 </body>
 </html>
