@@ -1,12 +1,14 @@
+var testPort = process.env.TEST_PORT || 9870;
+
 exports.config = {
-  baseUrl: 'http://localhost:8000',
+  baseUrl: 'http://localhost:' + testPort,
 
   onPrepare: function () {
       var http = require('http'),
           ecstatic = require('ecstatic');
       http.createServer(
           ecstatic({ root: __dirname + '/../app' })
-      ).listen(8000);
+      ).listen(testPort);
   },
 
   specs: ['spec.js'],
