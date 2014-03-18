@@ -1,3 +1,6 @@
+test:
+	protractor test/protractor.conf.js
+
 app/data/entries.json: cache/posts-raw.json
 	node scripts/ocr-pictures.js > app/data/entries.json
 
@@ -8,3 +11,5 @@ cache/posts-raw.json:
 
 clean:
 	rm -f app/data/entries.json cache/posts-raw.json
+
+.PHONY: test
