@@ -1,15 +1,20 @@
 var app = angular.module('pusheenExplorer', []);
 
-app.controller('MainCtrl', [ '$scope', '$http', '$timeout', '$filter',
-    function ($scope, $http, $timeout, $filter) {
+app.config([ '$locationProvider',
+    function ($locationProvider) {
+        $locationProvider.html5Mode(true);
+    }
+]);
+
+app.controller('MainCtrl', [ '$scope', '$http', '$timeout', '$filter', '$location',
+    function ($scope, $http, $timeout, $filter, $location) {
         function updateEntries () {
             var allEntries = $scope.allEntries,
-                query = $scope.query;
+                query      = $scope.query;
             if (query) {
                 $scope.entries = $filter('filter')(allEntries, { text: query })
             } else {
                 $scope.entries = _.sample(allEntries, 50);
-                // return $filter('limitTo')($scope.allEntries, 50)
             }
 
             $timeout(function () {
@@ -17,17 +22,33 @@ app.controller('MainCtrl', [ '$scope', '$http', '$timeout', '$filter',
             });
         }
 
+        $scope.imageWidth = 200;
+
         $http.get('data/entries.json').success(function (data) {
             $scope.allEntries = data;
-            $scope.imageWidth = 200;
-
-            updateEntries();
         });
 
-        $scope.$watch('query', function (query) {
-            $scope.entries = updateEntries();
+        $scope.$watch('allEntries', updateEntries);
+        $scope.$watch('query',      updateEntries);
 
-            updateEntries();
+        // $scope.query <-> ?q={query}
+        $scope.query = $location.search().q;
+
+        $scope.$watch(
+            function () {
+                return $location.search().q;
+            },
+            function (q) {
+                $scope.query = q;
+            }
+        );
+
+        $scope.$watch('query', function (query) {
+            if (query) {
+                $location.search({ q: query });
+            } else {
+                $location.search('');
+            }
         });
     }
 ]);
