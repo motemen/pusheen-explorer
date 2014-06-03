@@ -4,7 +4,8 @@
   "description": "Explore Pusheen pictures!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "webdriver-manager update",
+    "test": "protractor test/protractor.conf.js"
   },
   "author": "",
   "license": "MIT",
