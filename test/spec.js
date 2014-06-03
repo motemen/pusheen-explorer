@@ -16,11 +16,13 @@ describe('/', function () {
         });
 
         it('should filter by query input', function () {
-            var imageURLs = element.all(by.repeater('entry in entries')).map(function (el) {
-                return el.findElement(by.css('img')).getAttribute('src');
+            var imageFilenames = element.all(by.repeater('entry in entries')).map(function (el) {
+                return el.findElement(by.css('img')).getAttribute('src').then(function (src) {
+                    return src.replace(/.*\//, '');
+                });
             });
 
-            expect(imageURLs).toContain('http://25.media.tumblr.com/tumblr_ma3rbnZTE11qhy6c9o7_400.gif');
+            expect(imageFilenames).toContain('tumblr_ma3rbnZTE11qhy6c9o7_400.gif');
         });
 
         it('should have query string in the location', function () {
