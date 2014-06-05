@@ -16,7 +16,16 @@ build:
         packages: firefox
 
     - npm-install
-    - npm-test
+
+    - script:
+        name: update webdriver
+        code: |
+          $(npm bin)/webdriver-manager update
+
+    - script:
+        name: run tests
+        code: |
+          $(npm bin)/protractor test/protractor.conf.js --browser=firefox
 
     - script:
         name: echo nodejs information
