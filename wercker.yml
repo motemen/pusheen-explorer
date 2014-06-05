@@ -27,8 +27,8 @@ build:
         code: |
           $(npm bin)/protractor test/protractor.conf.js --browser=firefox
 
-    - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
+deploy:
+  steps:
+    - lukevivier/gh-pages@0.2.1:
+      token: $GITHUB_TOKEN
+      basedir: app
