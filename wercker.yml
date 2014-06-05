@@ -30,5 +30,5 @@ build:
 deploy:
   steps:
     - lukevivier/gh-pages@0.2.1:
-      token: $GITHUB_TOKEN
-      basedir: app
+        token: $GITHUB_TOKEN
+        basedir: app
