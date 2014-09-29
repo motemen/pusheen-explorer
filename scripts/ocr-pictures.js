@@ -36,7 +36,7 @@ Q.nfcall(fs.readFile, 'cache/posts-raw.json').then(function (json) {
         var q = Q.defer();
         spawn('wget', [ '-nv', '--mirror', '-P', 'cache', url ], { stdio: 'inherit' })
             .on('close', function () { q.resolve(filePath) });
-        return q;
+        return q.promise;
     }
 
     function extractText (filePath) {
