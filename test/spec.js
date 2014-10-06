@@ -17,7 +17,7 @@ describe('/', function () {
 
         it('should filter by query input', function () {
             var imageFilenames = element.all(by.repeater('entry in entries')).map(function (el) {
-                return el.findElement(by.css('img')).getAttribute('src').then(function (src) {
+                return el.element(by.css('img')).getAttribute('src').then(function (src) {
                     return src.replace(/.*\//, '');
                 });
             });
