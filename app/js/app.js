@@ -25,7 +25,18 @@ app.controller('MainCtrl', [ '$scope', '$http', '$timeout', '$filter', '$locatio
         $scope.imageWidth = 200;
 
         $http.get('data/entries.json').success(function (data) {
-            $scope.allEntries = data;
+            var allEntries = [];
+            data.forEach(function (post) {
+                (post.photos || []).forEach(function (photo) {
+                    allEntries.push({
+                        postUrl: post.url,
+                        text:    photo.text,
+                        photo:   photo
+                    });
+                });
+            });
+
+            $scope.allEntries = allEntries;
         });
 
         $scope.$watch('allEntries', updateEntries);

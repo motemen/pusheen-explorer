@@ -3,15 +3,18 @@ test:
 	$(shell npm bin)/webdriver-manager update
 	$(shell npm bin)/protractor test/protractor.conf.js
 
-app/data/entries.json: cache/posts-raw.json
-	node scripts/ocr-pictures.js > app/data/entries.json
+app/data/entries.json:
+	bundle exec ruby scripts/json.rb > app/data/entries.json
 
-cache/posts-raw.json:
+app/data/entries.yaml: fetch-entries
+	cat cache/posts-raw.json | bundle exec ruby scripts/ocr.rb
+
+fetch-entries:
 	mkdir -p cache
-	node scripts/scrape-pictures.js > cache/posts-raw.json.tmp
+	bundle exec ruby scripts/fetch-entries.rb > cache/posts-raw.json.tmp
 	mv cache/posts-raw.json.tmp cache/posts-raw.json
 
 clean:
 	rm -f app/data/entries.json cache/posts-raw.json
 
-.PHONY: test
+.PHONY: test fetch-entries
