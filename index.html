@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html ng-app="pusheenExplorer">
+<head>
+  <meta charset="utf-8">
+  <title>Pusheen Explorer - Search through pusheen.com!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.2/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="js/app.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Patrick+Hand+SC' rel='stylesheet' type='text/css'>
+  <style>
+* {
+  font-family: "Patrick Hand SC", cursive;
+}
+
+body {
+  color: #68412E;
+  background-color: #FCF0E4;
+  margin: 2%;
+  padding: 0;
+}
+
+input {
+  font-size: 1.2em;
+  width: 25em;
+  max-width: 90%;
+  padding: 0.2em;
+}
+
+h1 small {
+  font-size: 12pt;
+  color: grey;
+}
+
+h1 small:before {
+  content: " - ";
+}
+
+#photos ul {
+  margin: 0;
+  padding: 0;
+}
+
+#photos li {
+  margin: 10px;
+  border: 5px solid #FFF;
+  list-style: none;
+}
+
+#heading {
+  margin-bottom: 1em;
+}
+
+#social {
+  display: block;
+  margin-bottom: 1em;
+}
+
+#social div {
+  display: inline-block;
+}
+
+#social .fb-like.fb_iframe_widget > span {
+  vertical-align: baseline !important;
+}
+
+footer {
+  padding-top: 1em;
+  margin-top: 1em;
+  border-top: 1px solid #68412E;
+}
+
+footer iframe {
+  vertical-align: middle;
+}
+
+.hearts {
+  color: #C33;
+}
+
+@media (max-width: 768px) {
+  #github-ribbon {
+    display: none;
+  }
+}
+  </style>
+</head>
+<body ng-controller="MainCtrl">
+  <header>
+    <h1>Pusheen Explorer <small>[unofficial] search through pusheen.com!</small></h1>
+    <small id="social">
+      <div class="fb-like" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" data-width="110"></div>
+
+      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-hashtags="pusheen"></a>
+
+      <div class="g-plusone" data-width="300" data-size="medium"></div>
+
+      <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple-balloon" title="Add this site to Hatena Bookmark"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+    </small>
+  </header>
+  <section id="heading">
+    <input type="text" placeholder="Search…" ng-model="query">
+  </section>
+  <section id="photos">
+    <ul class="photos-container">
+      <li title="{{entry.text}}" ng-repeat="entry in entries"><a ng-href="{{entry.postUrl}}" target="_blank"><img ng-src="{{entry.photo.url}}" ng-style="{ width: imageWidth + 'px', height: (imageWidth / entry.photo.width * entry.photo.height) + 'px' }"></a></li>
+    </ul>
+  </section>
+  <footer>
+    <a id="github-ribbon" href="https://github.com/motemen/pusheen-explorer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+    <p>
+    Made <span class="hearts">&hearts;</span> with Pusheen, by <a href="http://motemen.github.io/">@motemen</a> <a href="https://twitter.com/motemen" class="twitter-follow-button" data-show-count="false" data-lang="en" data-show-screen-name="false">(Twitter)</a>.
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    All Pusheens are from <a href="http://pusheen.com/">pusheen.com</a>.
+    </p>
+  </footer>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=571306102982480";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-34276254-5', 'motemen.github.io');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
